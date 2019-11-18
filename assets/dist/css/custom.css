@@ -1,0 +1,5 @@
+.center-pos{
+    position: relative;
+    transform: translate(0%,0%);
+    top: 200px;
+}
