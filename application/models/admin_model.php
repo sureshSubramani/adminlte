@@ -7,5 +7,9 @@ class Admin_model extends CI_Model{
     $result = $this->db->get('users_details');
     return $result;
   }
+
+  function insert($data){
+		$this->db->insert_batch('customer', $data);
+	}
  
 }

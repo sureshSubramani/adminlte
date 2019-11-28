@@ -42,10 +42,10 @@
                 <div class="row">
                     <!-- Left col -->
                     <section class="col-sm-4 col-md-4 col-lg-4 offset-4 center-pos">
-                        <?php if($this->session->set_flashdata('msg')){ ?>
+                        <?php if($this->session->flashdata('msg')){ ?>
                             <div class="alert alert-danger alert-dismissible">
                                 <button type="button" class="close" data-dismiss="alert">&times;</button>
-                                <strong>Warning!</strong> <?php echo $this->session->set_flashdata('msg'); ?>
+                                <strong>Warning!</strong> <?php echo $this->session->flashdata('msg'); ?>
                             </div> 
                         <?php } ?>
                         <form action="<?php echo base_url() ?>admin/auth" method="post">
