@@ -171,29 +171,29 @@
 
 $(document).ready(function() {
 
-        $("#next").click(function() {
-            var email = $("#email_id").val();
-            var phone = $("#phone").val();
-            if(email=='' || phone==''){
-            alert("Please Fill All Fields");
+        // $("#next").click(function() {
+        //     var email = $("#email_id").val();
+        //     var phone = $("#phone").val();
+        //     if(email=='' || phone==''){
+        //     alert("Please Fill All Fields");
 
-            }else{
-            alert(email+" "+phone);
-             $.ajax({
-                    type: "POST",
-                    url: "<?php echo base_url();?>recruitment/register",
-                    data: {'email':email, 'mobile': phone},
-                    dataType:'JSON',
-                    success: function(data) {
-                        alert(data);
-                        console.log(data);
-                        $("#email_id").text('');
-                        $("#phone_no").text('');
-                    }
-                });
-            }
+        //     }else{
+        //     alert(email+" "+phone);
+        //      $.ajax({
+        //             type: "POST",
+        //             url: "<?php echo base_url();?>recruitment/register",
+        //             data: {'email':email, 'mobile': phone},
+        //             dataType:'JSON',
+        //             success: function(data) {
+        //                 alert(data);
+        //                 console.log(data);
+        //                 $("#email_id").text('');
+        //                 $("#phone_no").text('');
+        //             }
+        //         });
+        //     }
              
-        });
+        // });
 
         $("#email_id").keyup(function() {
             if ($("#email_id").val().length >= 4) {
