@@ -62,8 +62,8 @@ $(document).ready(function() {
             processData: false,
             success: function(data) {
                 $('#file').val('');
-                //alert(data);
-                //console.log(data);
+                alert(data);
+                console.log(data);
             }
         })
     });

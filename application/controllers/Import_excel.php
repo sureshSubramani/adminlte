@@ -46,6 +46,10 @@ class Import_excel extends CI_Controller {
                 }
                               
             }
+                // echo '<pre>';
+                // print_r($data); die();
+                // echo '<pre>';
+
                 $this->import_model->insert_data($data);
                 
                 redirect(base_url('import_excel'));
