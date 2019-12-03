@@ -47,11 +47,10 @@ $(document).ready(function () {
                 },
                 duration: 600
             });
-        }
-
-        
+        }       
         
     });
+
 
     $(".previous").click(function () {
 

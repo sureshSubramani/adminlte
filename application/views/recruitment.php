@@ -35,15 +35,15 @@
     <div class="row justify-content-center mt-0">
         <div class="col-11 col-sm-9 col-md-7 col-lg-10 text-center p-0 mt-3 mb-2">
             <div class="card px-0 pt-4 pb-0 mt-3 mb-3">
-              <h2><strong>Teaching Staff Recuritment</strong></h2>
+              <h2><strong>Teaching Staff Recruitment</strong></h2>
                 <hr/>
                 <div class="row">
                     <div class="col-md-12 mx-0">
-                        <form id="msform" method='post' action='' enctype='multipart/form-data'>
+                        <div id="msform">
                             <!-- progressbar -->
                             <ul id="progressbar">
                                 <li class="active" id="user"><strong>Check User</strong></li>
-                                <li id="personal"><strong>Personal Information</strong></li>
+                                <li id="personal"><strong>Personal Information</strongpersonal_id></li>
                                 <li id="communication"><strong>Communication Information</strong></li>
                                 <li id="education"><strong>Education Information</strong></li>
                                 <li id="experience"><strong>Experience Information</strong></li>
@@ -51,27 +51,31 @@
                                 <li id="joining"><strong>Joining Information</strong></li>
                                 <li id="confirm"><strong>Finish</strong></li>
                             </ul> <!-- fieldsets -->
-                            <fieldset id='user'>                                
+                            <fieldset id='user'> 
+                              <form method='post' action='' enctype='multipart/form-data'>                               
                                 <div class="form-card">
                                     <h2 class="fs-title">Check User</h2> 
                                     <div class="row">
                                         <div class="col-12">
-                                            <span class='email_vierify' id='email_verify'></span>
+                                            <input type="hidden" id='personal_id' name="personal_id" value="0" class='form-control col-md-4'/>
+                                            <span class='email_vierify' id='email_verify'></span>                                             
                                             <input type="email" id='email_id' name="email_id" class='form-control col-md-4' placeholder="Email" required />  
                                             <span id='mobile'></span>
                                             <input type="text" id="phone" name="mobile" class="form-control col-md-4" placeholder="Phone" maxlength="10" required/> 
                                        </div>                                                                     
                                     </div>
                                 </div>
-                                <input type='button' name="next" id='next' class="next action-button" value="NEXT" />
+                                </form>
+                                <input type='button' name="next" id='checkUser' class="next action-button" value="NEXT" />
                             </fieldset>
                             <fieldset>
                                 <div class="form-card">
                                     <h2 class="fs-title">Personal Information</h2> 
                                     <div class="row">
                                     <div class="col-12">
-                                        <input type="text" class='col-sm-5 col-md-5' name="fname" placeholder="First Name" /> 
-                                        <input type="text" class='col-sm-5 col-md-5' name="lname" placeholder="Last Name" /> 
+                                        <input type="hidden" id='personal_id' name="personal_id" value="0" class='form-control col-md-4'/>
+                                        <input type="text" class='col-sm-5 col-md-5' id='first_name' name="first_name" placeholder="First Name" /> 
+                                        <input type="text" class='col-sm-5 col-md-5' id='last_name' name="last_name" placeholder="Last Name" /> 
                                     </div>                                                                     
                                     </div>
                                     <div class="row">
@@ -86,15 +90,15 @@
                                     <div class="col-12">
                                     <input type="text" class='col-sm-5 col-md-5' name="fname" placeholder="Father/Husband Name" />
                                     <label>Married Status* :</label>
-                                    <input type="radio" class='col-sm-1 col-md-1' name="gender" value='Married' /> Married
-                                    <input type="radio" class='col-sm-1 col-md-1' name="gender" value='Un-Married' /> Un-Married
+                                    <input type="radio" class='col-sm-1 col-md-1' id='gender' name="gender" value='Married' /> Married
+                                    <input type="radio" class='col-sm-1 col-md-1' id='gender' name="gender" value='Un-Married' /> Un-Married
                                     </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-12">
                                             <input type="text" class='col-sm-5 col-md-5' name="focc" placeholder="Father/Husband Occupation" />
                                             <label>Nationality*</label>
-                                            <select class="list-dt" class='form-control' id='nationality' name='nationality'>
+                                            <select class='list-dt' id='nationality' name='nationality'>
                                                 <option>---Select---</option>
                                                 <option value='Indian'>Indian</option>
                                             </select>
@@ -109,6 +113,25 @@
                                     <div class="row">
                                     <div class="col-12">
                                     <input type="text" class='col-sm-5 col-md-5' name="phno_2" placeholder="Alternate Contact No." />
+                                    </div>
+                                    </div>
+                                    <div class="row">
+                                    <div class="col-12">
+                                        <select class='list-dt' id='sel_city'>
+                                        <option>-- Select city --</option>
+                                        <?php
+                                        foreach($cities as $city){
+                                            echo "<option value='".$city['city_id']."'>".$city['city']."</option>";
+                                        }
+                                        ?>
+                                        </select>
+                                    </div>
+                                    </div>
+                                    <div class="row">
+                                    <div class="col-12">
+                                    <select class='list-dt' id='sel_state' readonly disabled>
+                                        <option>-- Select State --</option>
+                                    </select>
                                     </div>
                                     </div>
                                 </div> <input type="button" name="previous" class="previous action-button-previous" value="PREVIOUS" /> <input type="button" name="next" class="next action-button" value="NEXT" />
@@ -159,7 +182,7 @@
                                     </div>
                                 </div>
                             </fieldset>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -170,6 +193,31 @@
 <script>
 
 $(document).ready(function() {
+
+    // City change
+    $('#sel_city').change(function(){
+        var city_id = $(this).val();
+  
+        // AJAX request
+        $.ajax({
+          url:'<?php echo base_url();?>/recruitment/getStates',
+          method: 'post',
+          data: {city_id: city_id},
+          dataType: 'json',
+          success: function(response){
+              console.log(response);
+  
+            // Remove options 
+            $('#sel_state').find('option').not(':first').remove();
+  
+            // Add options
+            $.each(response,function(index,data){
+               $('#sel_state').append('<option value="'+data['id']+'" selected>'+data['state']+'</option>');
+            });
+          }
+       });        
+        
+    });
 
         // $("#next").click(function() {
         //     var email = $("#email_id").val();

@@ -10,6 +10,8 @@ class Recruitment extends CI_Controller {
 	public function index(){
 
         $data['data'] = $this->db->get("personal_details")->result();
+        // get cities 
+        $data['cities'] = $this->admin_model->getCity();
 
         $data['title'] = "AdminLTE | Recuritment";
 
@@ -18,14 +20,16 @@ class Recruitment extends CI_Controller {
         //$this->load->view('common/footer');
     }
 
-    public function check_email_exist(){ //receives ajax requests
-		// if (!$this->input->is_ajax_request()){ 
-		// 		exit('No valid req.'); 
-        // 	}
+    public function getStates(){ 
+        // POST data 
+        $postStates = $this->input->post();
         
-            // echo '<pre>';
-            // print_r($_POST);// die();
-            // echo '</pre>';
+        // get data 
+        $data = $this->admin_model->getState($postStates);
+        echo json_encode($data); 
+      }
+
+    public function check_email_exist(){ //receives ajax requests
 
         $isEmail = $this->input->post('email_id');
         //$isPhone = $this->input->post('phone');
@@ -34,7 +38,17 @@ class Recruitment extends CI_Controller {
 		  echo "false";
 		else
 		  echo "true";
-	}
+    }
+    
+    public function check_user_exist(){
+        
+        $personal_id= $this->input->post('personal_id');
+        $result = $this->admin_model->checkUser($personal_id);
+        if($result == 1)
+		  print_r(json_encode($result->result()));
+		else
+		  echo 0;
+    }
 
     public function register(){
 

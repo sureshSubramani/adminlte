@@ -29,5 +29,40 @@ class Admin_model extends CI_Model{
       return false;
      }
     }
+
+    public function checkUser($personal_id){ 
+      //checks ajax requests
+       $this->db->where("personal_id",$personal_id);
+       $query=$this->db->get("personal_details");
+       return $query->result();
+    }
+
+    function getCity(){
+
+      $response = array();
+   
+      // Select record
+      $this->db->select('*');
+      $q = $this->db->get('city');
+      $response = $q->result_array();
+  
+      return $response;
+    }
+    
+    function getState($postData){
+      $response = array();
+   
+      // Select record
+      $this->db->select('id,state');
+      $this->db->where('city_id', $postData['city_id']);
+      $q = $this->db->get('states');
+      $response = $q->result_array();
+  
+      return $response;
+    }
+
+
+
+
   
 }
